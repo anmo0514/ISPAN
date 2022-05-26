@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <form name="form1" onsubmit="sendData(); return false;">
+            <input type="number" id="a" name="a" /> +
+            <input type="number" id="b" name="b" />
+            <input type="submit" value="=" />
+        </form>
+        <h2 id="info"></h2>
+        <button>123</button>
+        <input type="text" />
+
+        <script>
+            function sendData() {
+                const a = document.form1.a.value;
+                const b = document.form1.b.value;
+
+                const xhr = new XMLHttpRequest();
+                xhr.onload = function () {
+                    info.innerHTML = xhr.responseText;
+                };
+                // 同步操作
+                xhr.open(
+                    "GET",
+                    `http://localhost/mfee26-php/practice/a20220519-01-get.php?a=${a}&b=${b}`,
+                    false
+                );
+                xhr.send();
+                console.log(xhr.responseText);
+            }
+        </script>
+    </body>
+</html>

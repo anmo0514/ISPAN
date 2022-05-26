@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script>
+            const xhr = new XMLHttpRequest();
+
+            xhr.onload = function () {
+                // console.log(xhr.responseText);
+                const rawData = JSON.parse(xhr.responseText);
+
+                const dict = {}; // PK 跟資料的對應
+                for (let i of rawData) {
+                    dict[i.sid] = i;
+                }
+
+                for (let i of rawData) {
+                    // 不是第一層的項目
+                    if (i.parent_sid !== "0") {
+                        const p = dict[i.parent_sid];
+                        p.nodes = p.nodes || [];
+                        p.nodes.push(i);
+                    }
+                }
+                const result = rawData.filter((i) => i.parent_sid === "0");
+
+                console.log(result);
+            };
+            xhr.open("GET", "../data/categories.json");
+            xhr.send();
+        </script>
+    </body>
+</html>
