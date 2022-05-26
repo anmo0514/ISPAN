@@ -1,6 +1,20 @@
-<?php require __DIR__.'/parts/connect_db.php'; 
-$pageName = 'ab-add';
-$title = '新增通訊錄資料 - anmo';
+<?php require __DIR__ . '/parts/connect_db.php';
+$pageName = 'ab-edit';
+$title = '編輯通訊錄資料 - anmo';
+
+$sid = isset($_GET['sid']) ? intval($_GET['sid']) : 0;
+if (empty($sid)) {
+    header('Location: ab-list.php');
+    exit;
+}
+
+$row = $pdo->query("SELECT * FROM address_book WHERE sid=$sid")->fetch();
+if (empty($row)) {
+    header('Location: ab-list.php');
+    exit;
+}
+
+
 
 ?>
 <?php include __DIR__.'/parts/html-head.php' ?>
@@ -20,44 +34,44 @@ $title = '新增通訊錄資料 - anmo';
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">新增資料</h5>
+                    <h5 class="card-title">修改資料</h5>
                     <form name="form1" onsubmit="sendData(); return false;" novalidate>
-                        
+                        <input type="hidden" name="sid" value="<?= $row['sid']?>">
                         <div class="mb-3" >
                             <label for="name" class="form-label">*name</label>
-                            <input name="name" type="name" class="form-control" id="name" required>
+                            <input name="name" type="name" class="form-control" id="name" required value="<?= htmlentities($row['name']) ?>">
                             <div class="form-text">
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">email</label>
-                            <input name="email" type="email" class="form-control" id="email">
+                            <input name="email" type="email" class="form-control" id="email" value="<?= $row['email']?>">
                             <div class="form-text">
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="mobile" class="form-label">mobile</label>
-                            <input name="mobile" type="mobile" class="form-control" id="mobile" pattern="09\d{8}">
+                            <input name="mobile" type="mobile" class="form-control" id="mobile" pattern="09\d{8}" value="<?= $row['mobile']?>">
                             <div class="form-text">
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="birthday" class="form-label">birthday</label>
-                            <input name="birthday" type="date" class="form-control" id="birthday" >
+                            <input name="birthday" type="date" class="form-control" id="birthday" value="<?= $row['birthday']?>">
                             <div class="form-text">
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="address" class="form-label">address</label>
-                            <textarea name="address" type="address" class="form-control" id="address" cols="3"></textarea>
+                            <textarea name="address" type="address" class="form-control" id="address" cols="3"><?= $row['address'] ?></textarea>
                             <div class="form-text">
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">新增</button>
+                        <button type="submit" class="btn btn-primary">修改</button>
                     </form>
 
                     <div id="info_bar" class="alert alert-success" role="alert" style="display:none ;">
-                    資料新增成功
+                    資料修改成功
                     </div>
                 </div>
             </div>
@@ -67,6 +81,7 @@ $title = '新增通訊錄資料 - anmo';
 
 <?php include __DIR__.'/parts/scripts.php' ?>
 <script>
+    const $row = <?= json_encode($row, JSON_UNESCAPED_UNICODE); ?>;
     const email_re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zAZ]{2,}))$/;
     const mobile_re = /^09\d{2}-?\d{3}-?\d{3}$/;
     
@@ -138,7 +153,7 @@ $title = '新增通訊錄資料 - anmo';
 
 
     const fd = new FormData(document.form1);
-    const r = await fetch('ab-add-api.php', {
+    const r = await fetch('ab-edit-api.php', {
         method:'POST',
         body: fd,
     });
@@ -148,7 +163,7 @@ $title = '新增通訊錄資料 - anmo';
     if(result.success){
         info_bar.classList.remove('alert-danger');
         info_bar.classList.add('alert-success');
-        info_bar.innerText = '新增成功';
+        info_bar.innerText = '修改成功';
 
         setTimeout(()=>{
             // location.href = 'ab-list.php';
@@ -156,7 +171,7 @@ $title = '新增通訊錄資料 - anmo';
     }else{
         info_bar.classList.remove('alert-success');
         info_bar.classList.add('alert-danger');
-        info_bar.innerText = result.error || '新增失敗';
+        info_bar.innerText = result.error || '修改失敗';
     }
     }
 
