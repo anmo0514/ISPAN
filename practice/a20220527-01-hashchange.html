@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .box{
+            width: 300px;
+            height: 800px;
+            background-color: #f5cd52;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <a href="#aa">aa</a>
+        <a href="#bb">bb</a>
+        <a href="#cc">cc</a>
+    </div>
+    <div class="box" id="aa"></div>
+    <div class="box" id="bb" style="background-color: rgb(0, 200, 250);"></div>
+    <div class="box" id="cc" style="background-color: rgb(0, 250, 104);"></div>
+    <div>
+        <a href="#aa">aa</a>
+        <a href="#bb">bb</a>
+        <a href="#cc">cc</a>
+    </div>
+
+    <script>
+        window.addEventListener('HashChange', function(){
+            console.log(location.hash);
+        });
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form 
+    name="form1" 
+    action="" 
+    onsubmit="return false;" 
+    method="post"
+    enctype="multipart/form-data">
+    
+    <input type="file" name="myfile" accept="image/jpg" multiple onchange="changeImg()"/>
+    <img src="" alt="" id="myimg">
+    </form>
+    <!-- MIME type -->
+    <!-- fileRead 預覽檔案 -->
+    
+    <script>
+    //document.form1.myfile.files    //FileList
+    //document.form1.myfile.files[0] //File
+
+    function changeImg(){
+        
+        const file = event.currentTarget.files[0];
+        console.log(file);
+        const reader = new FileReader();
+        //資料載入後 (讀完要做甚麼)
+        reader.onload = function (){
+            console.log(reader.result);
+            document.querySelector("#myimg").src = reader.result; 
+        };
+        reader.readAsDataURL(file);
+        // FileReader.readAsDataURL()
+    }
+    </script>
+</body>
+</html>

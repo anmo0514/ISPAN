@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="dopush('?name=anmo')">
+        anmo
+    </button>
+    <button onclick="dopush('?name=chang')">
+        chang
+    </button>
+    <script>
+        const dopush = (name) => {
+            history.pushState({name}, null, "?name="+name);
+        };
+        // const dopush = () => {
+        //     history.pushState({name:'bill'}, null, "/aaa/ccc");
+        // };
+        //只作用在自己網域 / 變更路徑
+
+        window.addEventListener("popstate",(event) => {
+            console.log(location.href);
+            console.log(event.state);
+        });
+    </script>
+</body>
+</html>
