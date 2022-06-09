@@ -56,8 +56,8 @@
         border-radius: 20px;
     }
 
-    header ul li a:hover ,
-    header ul li a:hover {
+    header ul li a:hover,
+    header ul li a.active {
         background: #fff;
         color: #2b1055;
     }
@@ -70,6 +70,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        overflow: hidden;
     }
 
     section::before {
@@ -102,7 +103,8 @@
         position: absolute;
         color: #fff;
         white-space: nowrap;
-        font-size: 7.5vw;
+        font-size: 5vw;
+        right: -350px;
         z-index: 9;
     }
 
@@ -158,8 +160,9 @@
             window.addEventListener('scroll', function(){
                 let value = window.scrollY;
                 stars.style.left = value * 0.5 + 'px';
-                moon.style.left = value * 1.5 + 'px';
+                moon.style.top = value * 1.5 + 'px';
                 mountains_behind.style.top = value * 0.5 + 'px';
+                text.style.right = value * 3 + 'px'; 
             })
 
         </script>
